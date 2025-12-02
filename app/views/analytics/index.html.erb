@@ -1,0 +1,19 @@
+<h1 class="text-3xl font-bold mb-6">Analytics</h1>
+
+<div class="space-y-4">
+
+  <div class="p-5 bg-white shadow rounded">
+    <p class="text-gray-700 text-lg">Total Items: <strong><%= @items_count %></strong></p>
+  </div>
+
+  <div class="p-5 bg-white shadow rounded">
+    <p class="text-gray-700 text-lg">Total Quantity: <strong><%= @total_quantity %></strong></p>
+  </div>
+
+  <div class="p-5 bg-white shadow rounded">
+    <p class="text-gray-700 text-lg">Most Common Item:
+      <strong><%= @most_common_item || "N/A" %></strong>
+    </p>
+  </div>
+
+</div>

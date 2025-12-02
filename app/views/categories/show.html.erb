@@ -1,0 +1,15 @@
+<h1 class="text-3xl font-bold mb-4"><%= @category.name %></h1>
+
+<h2 class="text-xl font-semibold mb-2">Items in this category</h2>
+
+<% if @category.items.any? %>
+  <ul class="space-y-2">
+    <% @category.items.each do |item| %>
+      <li class="border p-3 rounded shadow">
+        <%= item.name %>
+      </li>
+    <% end %>
+  </ul>
+<% else %>
+  <p class="text-gray-600">No items in this category yet.</p>
+<% end %>

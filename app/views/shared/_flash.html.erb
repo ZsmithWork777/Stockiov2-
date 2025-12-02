@@ -1,0 +1,13 @@
+<div class="fixed top-4 right-4 space-y-2 z-50">
+  <% flash.each do |type, message| %>
+    <% color = case type.to_sym
+      when :notice then "bg-green-500"
+      when :alert then "bg-red-500"
+      else "bg-gray-700"
+    end %>
+
+    <div class="<%= color %> text-white px-4 py-2 rounded shadow-lg animate-fade-in">
+      <%= message %>
+    </div>
+  <% end %>
+</div>

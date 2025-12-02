@@ -1,0 +1,15 @@
+<nav class="bg-white border-b px-8 py-4 flex justify-between items-center">
+  <!-- Left -->
+  <div class="flex items-center space-x-6">
+    <%= link_to "StockIO", root_path, class: "text-xl font-bold" %>
+    <%= link_to "Items", items_path, class: "text-gray-700 hover:text-black" %>
+    <%= link_to "Categories", categories_path, class: "text-gray-700 hover:text-black" %>
+    <%= link_to "Analytics", analytics_path, class: "text-gray-700 hover:text-black" %>
+  </div>
+
+  <!-- Right -->
+  <div class="flex items-center space-x-4">
+    <%= link_to "Profile", profile_path, class: "text-gray-700 hover:text-black" %>
+    <%= link_to "Logout", logout_path, method: :delete, class: "text-red-600 hover:text-red-800" %>
+  </div>
+</nav>

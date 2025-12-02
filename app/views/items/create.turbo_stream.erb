@@ -1,0 +1,7 @@
+<%= turbo_stream.prepend "items_list" do %>
+  <%= render "shared/card", item: @item %>
+<% end %>
+
+<%= turbo_stream.replace "item_form" do %>
+  <%= render "items/form", item: Item.new %>
+<% end %>

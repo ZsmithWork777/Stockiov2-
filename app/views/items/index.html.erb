@@ -1,0 +1,60 @@
+<div class="flex items-center justify-between mb-8">
+  <h1 class="text-3xl font-semibold">Items</h1>
+
+  <%= render "shared/button",
+        text: "New Item",
+        path: new_item_path,
+        style: :primary %>
+</div>
+
+<!-- SEARCH + FILTER + SORT -->
+<div class="mb-6">
+  <%= form_with url: items_path, method: :get, local: true, class: "flex gap-3" do %>
+
+    <!-- Search box -->
+    <%= text_field_tag :search, params[:search],
+          placeholder: "Search items...",
+          class: "border rounded px-3 py-2 w-64" %>
+
+    <!-- Category filter -->
+    <%= select_tag :category_id,
+          options_for_select([["All Categories", "all"]] +
+                             Category.all.map { |c| [c.name, c.id] },
+                             params[:category_id]),
+          class: "border rounded px-3 py-2" %>
+
+    <!-- Sorting dropdown -->
+    <%= select_tag :sort,
+          options_for_select([
+            ["Name ↑", "name_asc"],
+            ["Name ↓", "name_desc"],
+            ["Qty ↑", "qty_asc"],
+            ["Qty ↓", "qty_desc"]
+          ], params[:sort]),
+          class: "border rounded px-3 py-2" %>
+
+    <%= submit_tag "Filter",
+          class: "bg-blue-600 text-white px-4 py-2 rounded" %>
+
+  <% end %>
+</div>
+
+<!-- ITEMS LIST -->
+<% if @items.any? %>
+  <%= turbo_frame_tag "items_list" do %>
+    <div class="grid grid-cols-1 gap-6">
+      <% @items.each do |item| %>
+        <%= turbo_frame_tag dom_id(item) do %>
+          <%= render "shared/card", item: item %>
+        <% end %>
+      <% end %>
+    </div>
+  <% end %>
+<% else %>
+  <p class="text-gray-600 mt-10">No items found.</p>
+<% end %>
+
+<!-- ITEM FORM (Turbo-ready new item form) -->
+<%= turbo_frame_tag "item_form" do %>
+  <%= render "form", item: Item.new %>
+<% end %>

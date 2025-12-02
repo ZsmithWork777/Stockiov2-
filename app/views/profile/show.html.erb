@@ -1,0 +1,20 @@
+<h1 class="text-3xl font-bold mb-6">My Profile</h1>
+
+<div class="bg-white shadow p-6 rounded max-w-lg space-y-4">
+
+  <div>
+    <p class="text-gray-500 text-sm">Name</p>
+    <p class="font-semibold text-lg"><%= @name %></p>
+  </div>
+
+  <div>
+    <p class="text-gray-500 text-sm">Email</p>
+    <p class="font-semibold text-lg"><%= @email %></p>
+  </div>
+
+  <div>
+    <p class="text-gray-500 text-sm">Member Since</p>
+    <p class="font-semibold text-lg"><%= @created_at.strftime("%B %d, %Y") %></p>
+  </div>
+
+</div>

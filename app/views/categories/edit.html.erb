@@ -1,0 +1,12 @@
+<h2>Edit Category</h2>
+
+<%= form_with model: @category do |f| %>
+  <div class="mt-4">
+    <%= f.label :name %><br>
+    <%= f.text_field :name, class: "border px-3 py-2 rounded" %>
+  </div>
+
+  <div class="mt-4">
+    <%= f.submit "Update Category", class: "bg-blue-600 text-white px-4 py-2 rounded" %>
+  </div>
+<% end %>

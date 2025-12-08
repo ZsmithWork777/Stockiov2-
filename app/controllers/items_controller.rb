@@ -27,6 +27,9 @@ class ItemsController < ApplicationController
       @items = @items.order(quantity: :desc)
     end
   end
+## csv export
+
+
 
   def show; end
   def new; @item = Item.new end

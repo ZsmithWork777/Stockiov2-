@@ -7,6 +7,31 @@
         style: :primary %>
 </div>
 
+ <div class="flex gap-3 mb-4">
+
+
+#Export Button--->
+<%= link_to "Export csv",
+export_api_v1_items_path,
+class: "px-4 py-2 bg-blue-600 text-white rounded",
+  data: { turbo: false} %>
+
+
+<!-- Import Form-->
+
+<%= form_with url: import_api_v1_items_path,
+method: :post,
+multipart: true,
+data: {  turbo:false} do |f| %>
+
+
+
+<%= f.file_field :file, class: "border p-1 rounded" %>
+<%= f.submit "Import CSV",
+  class: "px-3 py-2 bg-green-600 text-white rounded" %>
+<% end %>
+</div>
+
 <!-- SEARCH + FILTER + SORT -->
 <div class="mb-6">
   <%= form_with url: items_path, method: :get, local: true, class: "flex gap-3" do %>

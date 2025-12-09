@@ -1,4 +1,4 @@
-Rails.application.routes.drawRails.application.routes.draw do
+Rails.application.routes.draw do
   get "profile/show"
   get "analytics/index"
   get "categories/index"

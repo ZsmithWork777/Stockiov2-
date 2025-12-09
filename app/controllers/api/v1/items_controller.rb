@@ -51,11 +51,16 @@ def import
     return render_error(message: "No CSV file uploaded") if params[:file].nil?
 
     begin
-        Item.import(params[:file])
-        render_success(data: {message: "Item Imported successfully"})
-    rescue => e
-        render_error(message: e.message)
-    end
+Item.import(params[:file])
+
+respond_to do |format|
+    format.json {render_success(data:{message: "Item Imported successfully"})}
+    format.html {redirect_to items_path, notice: "CSV imported successfully!"}
+end
+
+rescue => e
+    render_error(message: e.message)
+end
 end
 #CSV Export
 def export

@@ -1,15 +1,50 @@
-<h1 class="text-3xl font-bold mb-4"><%= @category.name %></h1>
+<div class="min-h-[70vh] flex flex-col items-center justify-start text-center">
 
-<h2 class="text-xl font-semibold mb-2">Items in this category</h2>
+  <!-- Header -->
+  <div class="mb-10">
+    <h1 class="text-5xl font-semibold text-black/80 mb-2">
+      <%= @category.name %>
+    </h1>
 
-<% if @category.items.any? %>
-  <ul class="space-y-2">
-    <% @category.items.each do |item| %>
-      <li class="border p-3 rounded shadow">
-        <%= item.name %>
-      </li>
+    <p class="text-lg text-black/50">
+      Items in this category
+    </p>
+  </div>
+
+  <!-- Glass Container -->
+  <div class="w-full max-w-xl rounded-3xl bg-white/60 backdrop-blur-xl shadow-md px-8 py-10">
+
+    <% if @category.items.any? %>
+      <div class="space-y-4">
+        <% @category.items.each do |item| %>
+          <div class="flex items-center justify-between rounded-2xl bg-white/80 px-6 py-4 shadow-sm">
+
+            <!-- Item name -->
+            <span class="text-base font-medium text-black/80">
+              <%= item.name %>
+            </span>
+
+            <!-- Quantity -->
+            <span class="text-sm text-black/50">
+              Qty <%= item.quantity %>
+            </span>
+
+          </div>
+        <% end %>
+      </div>
+    <% else %>
+      <p class="text-black/50">
+        No items in this category yet.
+      </p>
     <% end %>
-  </ul>
-<% else %>
-  <p class="text-gray-600">No items in this category yet.</p>
-<% end %>
+
+  </div>
+
+  <!-- Back button -->
+  <div class="mt-10">
+    <%= link_to "Back to Categories",
+          categories_path,
+          class: "inline-block rounded-full border border-black/10 bg-white/70 px-8 py-3 text-sm font-medium text-black/70 shadow-sm hover:bg-white transition" %>
+  </div>
+
+</div>

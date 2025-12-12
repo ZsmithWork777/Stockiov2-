@@ -16,24 +16,23 @@ module Api
 
       # POST /api/v1/items
       def create
-        service = ItemCreator.new(item_params)
+        item = Item.new(item_params)
 
-        if service.call
-          render_success(data: service.item, status: :created)
+        if item.save
+          render_success(data: item, status: :created)
         else
-          render_error(message: service.errors)
+          render_error(message: item.errors.full_messages)
         end
       end
 
       # PATCH/PUT /api/v1/items/:id
       def update
         item = Item.find(params[:id])
-        service = ItemUpdater.new(item, item_params)
 
-        if service.call
-          render_success(data: service.item)
+        if item.update(item_params)
+          render_success(data: item)
         else
-          render_error(message: service.errors)
+          render_error(message: item.errors.full_messages)
         end
       end
 
@@ -43,32 +42,30 @@ module Api
         item.destroy
         render_success(data: { message: "Item deleted" })
       end
-#-----
-#CSV Import
 
-#POST /api/v1/items/import
-def import
-    return render_error(message: "No CSV file uploaded") if params[:file].nil?
+      # POST /api/v1/items/import
+      def import
+        return render_error(message: "No CSV file uploaded") if params[:file].nil?
 
-    begin
-Item.import(params[:file])
+        begin
+          Item.import(params[:file])
 
-respond_to do |format|
-    format.json {render_success(data:{message: "Item Imported successfully"})}
-    format.html {redirect_to items_path, notice: "CSV imported successfully!"}
-end
+          respond_to do |format|
+            format.json { render_success(data: { message: "Items imported successfully" }) }
+            format.html { redirect_to items_path, notice: "CSV imported successfully!" }
+          end
+        rescue => e
+          render_error(message: e.message)
+        end
+      end
 
-rescue => e
-    render_error(message: e.message)
-end
-end
-#CSV Export
-def export
-  send_data Item.to_csv,
-  filename: "items-#{Date.today}.csv",
-  type: "text/csv"
-end
-#------
+      # GET /api/v1/items/export
+      def export
+        send_data Item.to_csv,
+                  filename: "items-#{Date.today}.csv",
+                  type: "text/csv"
+      end
+
       private
 
       def item_params

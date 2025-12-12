@@ -1,12 +1,39 @@
-<h2>Edit Category</h2>
+<div class="min-h-[70vh] flex items-center justify-center">
 
-<%= form_with model: @category do |f| %>
-  <div class="mt-4">
-    <%= f.label :name %><br>
-    <%= f.text_field :name, class: "border px-3 py-2 rounded" %>
+  <!-- Glass Card -->
+  <div class="w-full max-w-md rounded-3xl bg-white/60 backdrop-blur-xl shadow-lg px-10 py-8">
+
+    <!-- Title -->
+    <h2 class="text-3xl font-semibold text-black/80 mb-6 text-center">
+      Edit Category
+    </h2>
+
+    <%= form_with model: @category do |f| %>
+
+      <!-- Name Field -->
+      <div class="mb-6">
+        <%= f.label :name,
+              "Category Name",
+              class: "block text-sm font-medium text-black/60 mb-2" %>
+
+        <%= f.text_field :name,
+              class: "w-full rounded-xl border border-black/10 bg-white/70 px-4 py-3 text-black/80 shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-400" %>
+      </div>
+
+      <!-- Actions -->
+      <div class="flex items-center justify-between mt-8">
+
+        <%= link_to "Cancel",
+              categories_path,
+              class: "text-sm text-black/50 hover:text-black transition" %>
+
+        <%= f.submit "Update Category",
+              class: "rounded-full bg-blue-600 px-6 py-3 text-sm font-medium text-white shadow hover:bg-blue-700 transition" %>
+
+      </div>
+
+    <% end %>
+
   </div>
 
-  <div class="mt-4">
-    <%= f.submit "Update Category", class: "bg-blue-600 text-white px-4 py-2 rounded" %>
-  </div>
-<% end %>
+</div>

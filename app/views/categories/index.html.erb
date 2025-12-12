@@ -1,17 +1,57 @@
-<h1>Categories</h1>
+<div class="min-h-[70vh]">
 
-<%= link_to "New Category", new_category_path, class: "bg-blue-600 text-white px-3 py-1 rounded" %>
+  <!-- Header -->
+  <div class="flex items-center justify-between mb-10">
+    <h1 class="text-4xl font-semibold text-black/80">
+      Categories
+    </h1>
 
-<ul class="mt-6 space-y-4">
-  <% @categories.each do |category| %>
-    <li class="border p-4 rounded shadow">
-      <%= category.name %>
+    <%= link_to "New Category",
+          new_category_path,
+          class: "rounded-full bg-blue-600 px-6 py-3 text-sm font-medium text-white shadow hover:bg-blue-500 transition" %>
+  </div>
 
-      <div class="mt-2 space-x-2">
-        <%= link_to "Show", category_path(category), class: "px-3 py-1 bg-gray-100 rounded" %>
-        <%= link_to "Edit", edit_category_path(category), class: "px-3 py-1 bg-gray-100 rounded" %>
-        <%= link_to "Delete", category_path(category), method: :delete, class: "px-3 py-1 bg-red-600 text-white rounded" %>
+  <!-- Glass container -->
+  <div class="rounded-3xl bg-white/60 backdrop-blur-xl shadow-md p-8">
+
+    <% if @categories.any? %>
+      <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+        <% @categories.each do |category| %>
+
+          <div class="flex items-center justify-between rounded-2xl bg-white/80 px-6 py-5 shadow-sm">
+
+            <!-- Category name -->
+            <span class="text-lg font-medium text-black/80">
+              <%= category.name %>
+            </span>
+
+            <!-- Actions -->
+            <div class="flex gap-2">
+              <%= link_to "Show",
+                    category_path(category),
+                    class: "rounded-full bg-gray-100 px-4 py-2 text-sm text-black/70 hover:bg-gray-200 transition" %>
+
+              <%= link_to "Edit",
+                    edit_category_path(category),
+                    class: "rounded-full bg-gray-100 px-4 py-2 text-sm text-black/70 hover:bg-gray-200 transition" %>
+
+              <%= link_to "Delete",
+                    category_path(category),
+                    method: :delete,
+                    data: { confirm: "Delete this category and all its items?" },
+                    class: "rounded-full bg-red-500 px-4 py-2 text-sm text-white hover:bg-red-400 transition" %>
+            </div>
+
+          </div>
+
+        <% end %>
       </div>
-    </li>
-  <% end %>
-</ul>
+    <% else %>
+      <p class="text-black/50 text-center">
+        No categories yet.
+      </p>
+    <% end %>
+
+  </div>
+
+</div>

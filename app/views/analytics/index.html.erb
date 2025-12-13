@@ -1,18 +1,43 @@
-<h1 class="text-3xl font-bold mb-6">Analytics</h1>
+<h1 class="text-3xl font-bold mb-8">Analytics</h1>
 
-<div class="space-y-4">
+<div class="flex flex-wrap gap-6">
 
-  <div class="p-5 bg-white shadow rounded">
-    <p class="text-gray-700 text-lg">Total Items: <strong><%= @items_count %></strong></p>
+  <!-- Total Items -->
+  <div class="flex-1 min-w-[220px] p-5 bg-slate-50 border border-slate-200 rounded-xl shadow-sm">
+    <p class="text-sm uppercase tracking-wide text-slate-500 mb-1">
+      🧾 Records
+    </p>
+    <p class="text-2xl font-semibold text-slate-900">
+      <%= @items_count %>
+    </p>
+    <p class="text-slate-600 text-sm mt-1">
+      Total Items
+    </p>
   </div>
 
-  <div class="p-5 bg-white shadow rounded">
-    <p class="text-gray-700 text-lg">Total Quantity: <strong><%= @total_quantity %></strong></p>
+  <!-- Total Quantity -->
+  <div class="flex-1 min-w-[220px] p-5 bg-emerald-50 border border-emerald-200 rounded-xl shadow-sm">
+    <p class="text-sm uppercase tracking-wide text-emerald-600 mb-1">
+      📊 Aggregate
+    </p>
+    <p class="text-2xl font-semibold text-emerald-900">
+      <%= @total_quantity %>
+    </p>
+    <p class="text-emerald-700 text-sm mt-1">
+      Total Quantity
+    </p>
   </div>
 
-  <div class="p-5 bg-white shadow rounded">
-    <p class="text-gray-700 text-lg">Most Common Item:
-      <strong><%= @most_common_item || "N/A" %></strong>
+  <!-- Most Common Item -->
+  <div class="flex-1 min-w-[220px] p-5 bg-indigo-50 border border-indigo-200 rounded-xl shadow-sm">
+    <p class="text-sm uppercase tracking-wide text-indigo-600 mb-1">
+      🏷️ Top SKU
+    </p>
+    <p class="text-lg font-semibold text-indigo-900 truncate">
+      <%= @most_common_item || "N/A" %>
+    </p>
+    <p class="text-indigo-700 text-sm mt-1">
+      Most Common Item
     </p>
   </div>
 

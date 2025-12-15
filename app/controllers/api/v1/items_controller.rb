@@ -19,6 +19,16 @@ module Api
         item = Item.new(item_params)
 
         if item.save
+          AuditLog.log(
+            action: "api_create",
+            record: item,
+            details: {
+              name: item.name,
+              quantity: item.quantity,
+              category_id: item.category_id
+            }
+          )
+
           render_success(data: item, status: :created)
         else
           render_error(message: item.errors.full_messages)
@@ -30,6 +40,12 @@ module Api
         item = Item.find(params[:id])
 
         if item.update(item_params)
+          AuditLog.log(
+            action: "api_update",
+            record: item,
+            details: item.previous_changes
+          )
+
           render_success(data: item)
         else
           render_error(message: item.errors.full_messages)
@@ -39,6 +55,16 @@ module Api
       # DELETE /api/v1/items/:id
       def destroy
         item = Item.find(params[:id])
+
+        AuditLog.log(
+          action: "api_delete",
+          record: item,
+          details: {
+            name: item.name,
+            quantity: item.quantity
+          }
+        )
+
         item.destroy
         render_success(data: { message: "Item deleted" })
       end
@@ -50,10 +76,7 @@ module Api
         begin
           Item.import(params[:file])
 
-          respond_to do |format|
-            format.json { render_success(data: { message: "Items imported successfully" }) }
-            format.html { redirect_to items_path, notice: "CSV imported successfully!" }
-          end
+          render_success(data: { message: "Items imported successfully" })
         rescue => e
           render_error(message: e.message)
         end

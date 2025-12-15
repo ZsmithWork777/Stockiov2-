@@ -1,0 +1,64 @@
+<div class="max-w-4xl mx-auto px-6 py-8">
+
+  <!-- Back Navigation -->
+  <div class="mb-4">
+    <%= link_to "← Back to Items", items_path,
+        class: "text-sm text-gray-600 hover:text-gray-900" %>
+  </div>
+
+  <!-- Page Title -->
+  <h1 class="text-xl font-semibold mb-4">Activity Log</h1>
+
+  <!-- Card Container -->
+  <div class="bg-white border border-gray-200 rounded-xl shadow-sm overflow-hidden">
+    <div class="overflow-x-auto">
+
+      <table class="min-w-full text-sm">
+        <thead class="bg-gray-50 border-b border-gray-200">
+          <tr>
+            <th class="px-6 py-3 text-left font-medium text-gray-600">Time</th>
+            <th class="px-6 py-3 text-left font-medium text-gray-600">Action</th>
+            <th class="px-6 py-3 text-left font-medium text-gray-600">Record</th>
+            <th class="px-6 py-3 text-left font-medium text-gray-600">ID</th>
+            <th class="px-6 py-3 text-left font-medium text-gray-600">Details</th>
+          </tr>
+        </thead>
+
+        <tbody class="divide-y divide-gray-200 bg-white">
+          <% @audit_logs.each do |log| %>
+            <tr class="hover:bg-gray-50">
+
+              <!-- Time -->
+              <td class="px-6 py-4 text-gray-700 whitespace-nowrap">
+                <%= log.created_at.strftime("%Y-%m-%d %H:%M:%S") %>
+              </td>
+
+              <!-- Action (Color Coded) -->
+              <td class="px-6 py-4 font-medium <%= audit_action_color(log.action) %>">
+                <%= log.action %>
+              </td>
+
+              <!-- Record Type -->
+              <td class="px-6 py-4 text-gray-800">
+                <%= log.record_type %>
+              </td>
+
+              <!-- Record ID -->
+              <td class="px-6 py-4 text-gray-600">
+                <%= log.record_id %>
+              </td>
+
+              <!-- Details -->
+              <td class="px-6 py-4 text-gray-500 break-all max-w-md">
+                <%= log.details %>
+              </td>
+
+            </tr>
+          <% end %>
+        </tbody>
+      </table>
+
+    </div>
+  </div>
+
+</div>

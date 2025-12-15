@@ -1,9 +1,31 @@
-<% content_for :title, "New item" %>
+<% content_for :title, "New Item" %>
 
-<div class="md:w-2/3 w-full">
-  <h1 class="font-bold text-4xl">New item</h1>
+<div class="min-h-[70vh] flex items-center justify-center px-4">
+  <div class="w-full max-w-lg">
 
-  <%= render "form", item: @item %>
+    <!-- Header -->
+    <div class="text-center mb-8">
+      <h1 class="text-4xl font-bold text-black/90">New Item</h1>
+      <p class="mt-2 text-black/60">
+        Add a new item to your inventory
+      </p>
+    </div>
 
-  <%= link_to "Back to items", items_path, class: "w-full sm:w-auto text-center mt-2 sm:mt-0 sm:ml-2 rounded-md px-3.5 py-2.5 bg-gray-100 hover:bg-gray-50 inline-block font-medium" %>
+    <!-- Glass Card -->
+    <div class="rounded-3xl bg-white/70 backdrop-blur-xl shadow-xl p-8">
+
+      <!-- ✅ Turbo target -->
+      <div id="item_form">
+        <%= render "form", item: @item %>
+      </div>
+
+      <!-- Back link -->
+      <div class="mt-6 text-center">
+        <%= link_to "← Back to items",
+              items_path,
+              class: "text-sm text-black/60 hover:text-black transition" %>
+      </div>
+
+    </div>
+  </div>
 </div>

@@ -35,11 +35,13 @@
                     edit_category_path(category),
                     class: "rounded-full bg-gray-100 px-4 py-2 text-sm text-black/70 hover:bg-gray-200 transition" %>
 
-              <%= link_to "Delete",
-                    category_path(category),
-                    method: :delete,
-                    data: { confirm: "Delete this category and all its items?" },
-                    class: "rounded-full bg-red-500 px-4 py-2 text-sm text-white hover:bg-red-400 transition" %>
+           <%= link_to "Delete",
+      category_path(category),
+      data: {
+        turbo_method: :delete,
+        turbo_confirm: "Delete this category and all its items?"
+      },
+      class: "rounded-full bg-red-500 px-4 py-2 text-sm text-white hover:bg-red-400 transition" %>
             </div>
 
           </div>

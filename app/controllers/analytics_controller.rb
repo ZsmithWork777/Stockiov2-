@@ -1,7 +1,21 @@
 class AnalyticsController < ApplicationController
   def index
-    @items_count = Item.count
-    @total_quantity = Item.sum(:quantity)
-    @most_common_item = Item.group(:name).count.max_by { |k, v| v }&.first
+    @items = Item.all
+
+    @items_count = @items.count
+    @total_quantity = @items.sum(:quantity)
+
+    @avg_quantity =
+      @items_count > 0 ? (@total_quantity / @items_count) : 0
+
+    @lowest_item = @items.order(:quantity).first
+    @highest_item = @items.order(quantity: :desc).first
+
+    @stock_variance =
+      if @lowest_item && @highest_item
+        @highest_item.quantity - @lowest_item.quantity
+      else
+        0
+      end
   end
 end

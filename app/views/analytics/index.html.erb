@@ -1,43 +1,52 @@
-<h1 class="text-3xl font-bold mb-8">Analytics</h1>
+<h1 class="text-3xl font-semibold mb-10 text-black/80">
+  Analytics
+</h1>
 
-<div class="flex flex-wrap gap-6">
+<div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
 
   <!-- Total Items -->
-  <div class="flex-1 min-w-[220px] p-5 bg-slate-50 border border-slate-200 rounded-xl shadow-sm">
-    <p class="text-sm uppercase tracking-wide text-slate-500 mb-1">
-      🧾 Records
-    </p>
-    <p class="text-2xl font-semibold text-slate-900">
-      <%= @items_count %>
-    </p>
-    <p class="text-slate-600 text-sm mt-1">
+  <div class="rounded-2xl bg-white/70 backdrop-blur-md shadow p-6">
+    <p class="text-xs uppercase tracking-wide text-slate-400">
       Total Items
+    </p>
+    <p class="text-3xl font-bold mt-2 text-slate-900">
+      <%= @items_count %>
     </p>
   </div>
 
   <!-- Total Quantity -->
-  <div class="flex-1 min-w-[220px] p-5 bg-emerald-50 border border-emerald-200 rounded-xl shadow-sm">
-    <p class="text-sm uppercase tracking-wide text-emerald-600 mb-1">
-      📊 Aggregate
-    </p>
-    <p class="text-2xl font-semibold text-emerald-900">
-      <%= @total_quantity %>
-    </p>
-    <p class="text-emerald-700 text-sm mt-1">
+  <div class="rounded-2xl bg-emerald-50/70 backdrop-blur-md shadow p-6">
+    <p class="text-xs uppercase tracking-wide text-emerald-600">
       Total Quantity
+    </p>
+    <p class="text-3xl font-bold mt-2 text-emerald-900">
+      <%= @total_quantity %>
     </p>
   </div>
 
-  <!-- Most Common Item -->
-  <div class="flex-1 min-w-[220px] p-5 bg-indigo-50 border border-indigo-200 rounded-xl shadow-sm">
-    <p class="text-sm uppercase tracking-wide text-indigo-600 mb-1">
-      🏷️ Top SKU
+  <!-- Most Stocked -->
+  <div class="rounded-2xl bg-indigo-50/70 backdrop-blur-md shadow p-6">
+    <p class="text-xs uppercase tracking-wide text-indigo-600">
+      Most Stocked
     </p>
-    <p class="text-lg font-semibold text-indigo-900 truncate">
-      <%= @most_common_item || "N/A" %>
+    <p class="text-lg font-semibold mt-2 text-indigo-900 truncate">
+      <%= @highest_item&.name || "N/A" %>
     </p>
-    <p class="text-indigo-700 text-sm mt-1">
-      Most Common Item
+    <p class="text-sm text-indigo-700">
+      Qty: <%= @highest_item&.quantity || 0 %>
+    </p>
+  </div>
+
+  <!-- Lowest Stock -->
+  <div class="rounded-2xl bg-amber-50/70 backdrop-blur-md shadow p-6">
+    <p class="text-xs uppercase tracking-wide text-amber-600">
+      Lowest Stock
+    </p>
+    <p class="text-lg font-semibold mt-2 text-amber-900 truncate">
+      <%= @lowest_item&.name || "N/A" %>
+    </p>
+    <p class="text-sm text-amber-700">
+      Qty: <%= @lowest_item&.quantity || 0 %>
     </p>
   </div>
 

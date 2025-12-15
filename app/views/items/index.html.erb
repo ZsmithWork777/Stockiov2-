@@ -1,85 +1,131 @@
-<div class="flex items-center justify-between mb-8">
-  <h1 class="text-3xl font-semibold">Items</h1>
+<% content_for :title, "Items" %>
 
-  <%= render "shared/button",
-        text: "New Item",
-        path: new_item_path,
-        style: :primary %>
-</div>
+<div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-10">
 
- <div class="flex gap-3 mb-4">
-
-
-
-<%= link_to "Export csv",
-export_api_v1_items_path,
-class: "px-4 py-2 bg-blue-600 text-white rounded",
-  data: { turbo: false} %>
-
-
-<!-- Import Form-->
-
-<%= form_with url: import_api_v1_items_path,
-method: :post,
-multipart: true,
-data: {  turbo:false} do |f| %>
-
-
-
-<%= f.file_field :file, class: "border p-1 rounded" %>
-<%= f.submit "Import CSV",
-  class: "px-3 py-2 bg-green-600 text-white rounded" %>
-<% end %>
-</div>
-
-<!-- SEARCH + FILTER + SORT -->
-<div class="mb-6">
-  <%= form_with url: items_path, method: :get, local: true, class: "flex gap-3" do %>
-
-    <!-- Search box -->
-    <%= text_field_tag :search, params[:search],
-          placeholder: "Search items...",
-          class: "border rounded px-3 py-2 w-64" %>
-
-    <!-- Category filter -->
-    <%= select_tag :category_id,
-          options_for_select([["All Categories", "all"]] +
-                             Category.all.map { |c| [c.name, c.id] },
-                             params[:category_id]),
-          class: "border rounded px-3 py-2" %>
-
-    <!-- Sorting dropdown -->
-    <%= select_tag :sort,
-          options_for_select([
-            ["Name ↑", "name_asc"],
-            ["Name ↓", "name_desc"],
-            ["Qty ↑", "qty_asc"],
-            ["Qty ↓", "qty_desc"]
-          ], params[:sort]),
-          class: "border rounded px-3 py-2" %>
-
-    <%= submit_tag "Filter",
-          class: "bg-blue-600 text-white px-4 py-2 rounded" %>
-
-  <% end %>
-</div>
-
-<!-- ITEMS LIST -->
-<% if @items.any? %>
-  <%= turbo_frame_tag "items_list" do %>
-    <div class="grid grid-cols-1 gap-6">
-      <% @items.each do |item| %>
-        <%= turbo_frame_tag dom_id(item) do %>
-          <%= render "shared/card", item: item %>
-        <% end %>
-      <% end %>
+  <!-- HEADER -->
+  <div class="flex items-center justify-between mb-10">
+    <div>
+      <h1 class="text-4xl font-bold tracking-tight text-slate-900">Items</h1>
+      <p class="text-slate-500 mt-1">
+        Track inventory, quantities, and categories
+      </p>
     </div>
-  <% end %>
-<% else %>
-  <p class="text-gray-600 mt-10">No items found.</p>
-<% end %>
 
-<!-- ITEM FORM (Turbo-ready new item form) -->
-<%= turbo_frame_tag "item_form" do %>
-  <%= render "form", item: Item.new %>
-<% end %>
+    <%= link_to "New Item",
+          new_item_path,
+          class: "px-6 py-3 rounded-full bg-blue-600 text-white font-medium hover:bg-blue-500 transition" %>
+  </div>
+
+  <!-- CONTROLS CARD -->
+  <div class="bg-white/70 backdrop-blur-xl rounded-2xl shadow-lg p-6 mb-10 w-full">
+
+    <!-- EXPORT / IMPORT / ACTIVITY -->
+    <div class="flex flex-wrap items-center justify-between gap-4 mb-4">
+
+      <!-- LEFT: EXPORT / IMPORT -->
+      <div class="flex flex-wrap gap-4 items-center">
+        <%= link_to "Export CSV",
+              export_api_v1_items_path,
+              class: "px-4 py-2 rounded-lg bg-blue-600 text-white font-medium",
+              data: { turbo: false } %>
+
+        <%= form_with url: import_api_v1_items_path,
+              method: :post,
+              multipart: true,
+              data: { turbo: false },
+              class: "flex gap-3 items-center" do |f| %>
+
+          <%= f.file_field :file,
+                class: "border rounded-lg px-3 py-2 text-sm" %>
+
+          <%= f.submit "Import CSV",
+                class: "px-4 py-2 bg-green-600 text-white rounded-lg font-medium" %>
+        <% end %>
+      </div>
+
+      <!-- RIGHT: ACTIVITY LOG -->
+      <div>
+        <%= link_to "Activity Log",
+              audit_logs_path,
+              class: "text-sm font-medium text-slate-500 hover:text-slate-900 underline" %>
+      </div>
+
+    </div>
+
+    <!-- SEARCH / FILTER -->
+    <%= form_with url: items_path, method: :get, local: true,
+          class: "flex flex-wrap gap-4" do %>
+
+      <%= text_field_tag :search, params[:search],
+            placeholder: "Search items...",
+            class: "flex-1 min-w-[220px] border rounded-lg px-4 py-2" %>
+
+      <%= select_tag :category_id,
+            options_for_select([["All Categories", "all"]] +
+              Category.all.map { |c| [c.name, c.id] },
+              params[:category_id]),
+            class: "border rounded-lg px-4 py-2" %>
+
+      <%= select_tag :sort,
+            options_for_select([
+              ["Name ↑", "name_asc"],
+              ["Name ↓", "name_desc"],
+              ["Qty ↑", "qty_asc"],
+              ["Qty ↓", "qty_desc"]
+            ], params[:sort]),
+            class: "border rounded-lg px-4 py-2" %>
+
+      <%= submit_tag "Apply",
+            class: "px-5 py-2 rounded-lg bg-black text-white font-medium" %>
+    <% end %>
+  </div>
+
+  <!-- ITEMS LIST -->
+  <% if @items.any? %>
+    <div class="grid grid-cols-1 gap-5">
+
+      <% @items.each do |item| %>
+        <div class="bg-white rounded-2xl shadow-md p-6 flex items-center justify-between">
+
+          <!-- ITEM INFO -->
+          <div>
+            <h3 class="text-lg font-semibold text-slate-900">
+              <%= item.name %>
+            </h3>
+
+            <p class="text-sm text-slate-500 mt-1">
+              Qty: <%= item.quantity %>
+            </p>
+
+            <span class="inline-block mt-2 px-3 py-1 text-xs rounded-full bg-slate-100 text-slate-700">
+              <%= item.category.name %>
+            </span>
+          </div>
+
+          <!-- ACTIONS -->
+          <div class="flex gap-2">
+            <%= link_to "Show",
+                  item_path(item),
+                  class: "px-3 py-1.5 text-sm rounded-lg bg-gray-100 hover:bg-gray-200" %>
+
+            <%= link_to "Edit",
+                  edit_item_path(item),
+                  class: "px-3 py-1.5 text-sm rounded-lg bg-gray-100 hover:bg-gray-200" %>
+
+            <%= link_to "Destroy",
+                  item_path(item),
+                  method: :delete,
+                  data: { confirm: "Delete this item?" },
+                  class: "px-3 py-1.5 text-sm rounded-lg bg-red-500 text-white hover:bg-red-400" %>
+          </div>
+        </div>
+      <% end %>
+
+    </div>
+  <% else %>
+    <p class="text-slate-500 text-center mt-20">
+      No items found.
+    </p>
+  <% end %>
+
+</div>

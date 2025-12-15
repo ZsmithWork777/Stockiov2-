@@ -34,6 +34,13 @@ class CategoriesController < ApplicationController
   end
 
   def destroy
+ AuditLog.log(
+  action: "deleted",
+  record: @category,
+  details: "Category deleted with all associated items"
+ )
+
+
     @category.destroy
     redirect_to categories_path, notice: "Category deleted"
   end

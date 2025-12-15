@@ -1,4 +1,5 @@
 Rails.application.routes.draw do
+  get "audit_logs/index"
   get "profile/show"
   get "analytics/index"
   get "categories/index"
@@ -11,6 +12,9 @@ Rails.application.routes.draw do
   resources :items
   resources :categories
 
+  # ✅ ADD THIS LINE
+  resources :audit_logs, only: [:index]
+
   get "analytics", to: "analytics#index"
   get "profile", to: "profile#show"
   delete "logout", to: "sessions#destroy"
@@ -18,7 +22,6 @@ Rails.application.routes.draw do
   # API Route (JSON only)
   namespace :api do
     namespace :v1 do
-
       resources :items do
         collection do
           get :export
@@ -27,7 +30,6 @@ Rails.application.routes.draw do
       end
 
       resources :categories
-
     end
   end
 end

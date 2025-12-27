@@ -10,6 +10,9 @@
   <!-- Right -->
   <div class="flex items-center space-x-4">
     <%= link_to "Profile", profile_path, class: "text-gray-700 hover:text-black" %>
-    <%= link_to "Logout", logout_path, method: :delete, class: "text-red-600 hover:text-red-800" %>
+    <%= button_to "Logout",
+          logout_path,
+          method: :delete,
+          class: "bg-transparent border-0 p-0 text-red-600 hover:text-red-800 cursor-pointer" %>
   </div>
 </nav>

@@ -1,21 +1,19 @@
 class ItemsController < ApplicationController
+  before_action :require_login
   before_action :set_item, only: %i[ show edit update destroy ]
 
   def index
     @categories = Category.all
-    @items = Item.all
+    @items = current_user.items
 
-    # SEARCH
     if params[:search].present?
       @items = @items.where("name ILIKE ?", "%#{params[:search]}%")
     end
 
-    # CATEGORY FILTER
     if params[:category_id].present? && params[:category_id] != "all"
       @items = @items.where(category_id: params[:category_id])
     end
 
-    # SORTING
     case params[:sort]
     when "name_asc"
       @items = @items.order(name: :asc)
@@ -27,22 +25,21 @@ class ItemsController < ApplicationController
       @items = @items.order(quantity: :desc)
     end
   end
-## csv export
-
-
 
   def show; end
-  def new; @item = Item.new end
+
+  def new
+    @item = current_user.items.new
+  end
+
   def edit; end
 
-
-  # CREATE
   def create
-    @item = Item.new(item_params)
+    @item = current_user.items.new(item_params)
 
     if @item.save
       respond_to do |format|
-        format.turbo_stream   # uses create.turbo_stream.erb
+        format.turbo_stream
         format.html { redirect_to items_path, notice: "Item was successfully created." }
       end
     else
@@ -50,12 +47,10 @@ class ItemsController < ApplicationController
     end
   end
 
-
-  # UPDATE
   def update
     if @item.update(item_params)
       respond_to do |format|
-        format.turbo_stream   # uses update.turbo_stream.erb
+        format.turbo_stream
         format.html { redirect_to items_path, notice: "Item was successfully updated." }
       end
     else
@@ -63,26 +58,20 @@ class ItemsController < ApplicationController
     end
   end
 
-
-  # DELETE
   def destroy
-    # Item already loaded by set_item
-    @item.destroy if @item
+    @item.destroy
 
     respond_to do |format|
-      format.turbo_stream   # uses destroy.turbo_stream.erb
+      format.turbo_stream
       format.html { redirect_to items_path, notice: "Item was successfully destroyed." }
     end
   end
 
   private
 
-  # SAFE FIND — prevents RecordNotFound crash
   def set_item
-    @item = Item.find_by(id: params[:id])
-
-    # If nil (record deleted or invalid id), stop gracefully
-    head :not_found unless @item
+    @item = current_user.items.find_by(id: params[:id])
+    redirect_to items_path, alert: "Not authorized" unless @item
   end
 
   def item_params

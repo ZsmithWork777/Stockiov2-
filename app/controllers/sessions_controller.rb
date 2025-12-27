@@ -1,6 +1,21 @@
 class SessionsController < ApplicationController
-  def destroy
-    # Placeholder logout logic (no auth system yet)
-    redirect_to root_path, notice: "You have been logged out."
+  def new
   end
+
+  def create
+    user = User.find_by(email: params[:email])
+
+    if user && user.authenticate(params[:password])
+      session[:user_id] = user.id
+      redirect_to items_path
+    else
+      flash.now[:alert] = "Invalid email or password"
+      render :new, status: :unprocessable_entity
+    end
+  end
+
+ def destroy
+  reset_session
+  redirect_to login_path, notice: "Logged out successfully."
+ end
 end

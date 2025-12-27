@@ -2,6 +2,7 @@ require "csv"
 
 class Item < ApplicationRecord
   belongs_to :category
+  belongs_to :user, optional: true
 
   # =========================
   # AUDIT LOG CALLBACKS

@@ -1,0 +1,47 @@
+<div class="min-h-screen flex items-center justify-center bg-gradient-to-br from-blue-50 to-indigo-100 px-4">
+  <div class="w-full max-w-md bg-white rounded-2xl shadow-lg p-8">
+
+    <h1 class="text-3xl font-bold text-gray-900 text-center mb-2">
+      Login
+    </h1>
+
+    <p class="text-gray-500 text-center mb-6">
+      Sign in to your account
+    </p>
+
+    <% if flash[:alert] %>
+      <div class="mb-4 rounded-md bg-red-50 p-3 text-red-700 text-sm">
+        <%= flash[:alert] %>
+      </div>
+    <% end %>
+
+    <%= form_with url: login_path, method: :post, data: { turbo: false } do %>
+
+      <!-- Email -->
+      <div class="mb-4">
+        <label class="block text-sm font-medium text-gray-700 mb-1">
+          Email
+        </label>
+        <%= email_field_tag :email, nil,
+              class: "w-full rounded-lg border-gray-300 focus:ring-indigo-500 focus:border-indigo-500",
+              required: true %>
+      </div>
+
+      <!-- Password -->
+      <div class="mb-6">
+        <label class="block text-sm font-medium text-gray-700 mb-1">
+          Password
+        </label>
+        <%= password_field_tag :password, nil,
+              class: "w-full rounded-lg border-gray-300 focus:ring-indigo-500 focus:border-indigo-500",
+              required: true %>
+      </div>
+
+      <!-- Submit -->
+      <%= submit_tag "Log In",
+            class: "w-full rounded-lg bg-indigo-600 py-2 text-white font-semibold hover:bg-indigo-700 transition" %>
+
+    <% end %>
+
+  </div>
+</div>

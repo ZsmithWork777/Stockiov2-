@@ -2,18 +2,12 @@ require "csv"
 
 class Item < ApplicationRecord
   belongs_to :category
-  belongs_to :user, optional: true
+  belongs_to :user
 
-  # =========================
-  # AUDIT LOG CALLBACKS
-  # =========================
   after_create  :log_create
   after_update  :log_update
   after_destroy :log_destroy
 
-  # =========================
-  # CSV EXPORT
-  # =========================
   def self.to_csv
     CSV.generate(headers: true) do |csv|
       csv << ["id", "name", "quantity", "category_id", "created_at", "updated_at"]
@@ -31,9 +25,6 @@ class Item < ApplicationRecord
     end
   end
 
-  # =========================
-  # CSV IMPORT
-  # =========================
   def self.import(file)
     CSV.foreach(file.path, headers: true) do |row|
       data = row.to_h.symbolize_keys
@@ -49,9 +40,6 @@ class Item < ApplicationRecord
 
   private
 
-  # =========================
-  # AUDIT METHODS
-  # =========================
   def log_create
     AuditLog.log(
       action: "item_create",

@@ -220,16 +220,13 @@ rails
 
 
 What’s Next
-	•	Role-based permissions (admin vs standard user)
+ •	Role-based permissions (admin vs standard user)
 	•	AI-assisted inventory insights and recommendations
 	•	Deeper analytics and forecasting
 	•	Background jobs for imports and audits
 	•	Production deployment
 
-
-
 ---
-
 That’s **complete**, **accurate**, and **reflects exactly what you built**.
 No fragmentation. No missing context. No exaggeration.
 

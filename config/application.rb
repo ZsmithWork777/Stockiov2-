@@ -8,7 +8,6 @@ module Stockiov2
     config.load_defaults 8.0
     config.autoload_lib(ignore: %w[assets tasks])
 
-    config.solid_cache.enabled = false
     config.active_record.cache_versioning = false
   end
 end

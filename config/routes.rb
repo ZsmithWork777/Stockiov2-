@@ -1,5 +1,5 @@
 Rails.application.routes.draw do
-  # Root — FIRST PAGE
+  # Root
   root "sessions#new"
 
   # Signup
@@ -11,23 +11,24 @@ Rails.application.routes.draw do
   post   "/login",  to: "sessions#create"
   delete "/logout", to: "sessions#destroy"
 
-  # Core app pages (after login)
-  resources :items
+  # Core app pages (HTML)
+  resources :items do
+    collection do
+      get  :export
+      post :import
+    end
+  end
+
   resources :categories
   resources :audit_logs, only: [:index]
 
   get "/analytics", to: "analytics#index"
   get "/profile",   to: "profile#show"
 
-  # API
+  # API (JSON ONLY)
   namespace :api do
     namespace :v1 do
-      resources :items do
-        collection do
-          get  :export
-          post :import
-        end
-      end
+      resources :items
       resources :categories
     end
   end

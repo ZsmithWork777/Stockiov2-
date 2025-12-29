@@ -1,7 +1,12 @@
+require "csv"
+
 class ItemsController < ApplicationController
   before_action :require_login
-  before_action :set_item, only: %i[ show edit update destroy ]
+  before_action :set_item, only: %i[show edit update destroy]
 
+  # ======================
+  # INDEX / FILTER / SORT
+  # ======================
   def index
     @categories = Category.all
     @items = current_user.items
@@ -34,6 +39,9 @@ class ItemsController < ApplicationController
 
   def edit; end
 
+  # =======
+  # CREATE
+  # =======
   def create
     @item = current_user.items.new(item_params)
 
@@ -47,6 +55,9 @@ class ItemsController < ApplicationController
     end
   end
 
+  # =======
+  # UPDATE
+  # =======
   def update
     if @item.update(item_params)
       respond_to do |format|
@@ -58,6 +69,9 @@ class ItemsController < ApplicationController
     end
   end
 
+  # ========
+  # DESTROY
+  # ========
   def destroy
     @item.destroy
 
@@ -67,8 +81,35 @@ class ItemsController < ApplicationController
     end
   end
 
+  # ===========
+  # CSV EXPORT
+  # ===========
+  def export
+    csv = current_user.items.to_csv
+
+    send_data csv,
+              filename: "items-#{Date.today}.csv",
+              type: "text/csv"
+  end
+
+  # ===========
+  # CSV IMPORT
+  # ===========
+  def import
+    if params[:file].blank?
+      redirect_to items_path, alert: "Please upload a CSV file."
+      return
+    end
+
+    Item.import(params[:file])
+    redirect_to items_path, notice: "Items imported successfully."
+  end
+
   private
 
+  # ===========
+  # HELPERS
+  # ===========
   def set_item
     @item = current_user.items.find_by(id: params[:id])
     redirect_to items_path, alert: "Not authorized" unless @item

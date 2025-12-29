@@ -25,11 +25,11 @@
       <!-- LEFT: EXPORT / IMPORT -->
       <div class="flex flex-wrap gap-4 items-center">
         <%= link_to "Export CSV",
-              export_api_v1_items_path,
+              export_items_path,
               class: "px-4 py-2 rounded-lg bg-blue-600 text-white font-medium",
               data: { turbo: false } %>
 
-        <%= form_with url: import_api_v1_items_path,
+        <%= form_with url: import_items_path,
               method: :post,
               multipart: true,
               data: { turbo: false },
@@ -61,18 +61,23 @@
             class: "flex-1 min-w-[220px] border rounded-lg px-4 py-2" %>
 
       <%= select_tag :category_id,
-            options_for_select([["All Categories", "all"]] +
+            options_for_select(
+              [["All Categories", "all"]] +
               Category.all.map { |c| [c.name, c.id] },
-              params[:category_id]),
+              params[:category_id]
+            ),
             class: "border rounded-lg px-4 py-2" %>
 
       <%= select_tag :sort,
-            options_for_select([
-              ["Name ↑", "name_asc"],
-              ["Name ↓", "name_desc"],
-              ["Qty ↑", "qty_asc"],
-              ["Qty ↓", "qty_desc"]
-            ], params[:sort]),
+            options_for_select(
+              [
+                ["Name ↑", "name_asc"],
+                ["Name ↓", "name_desc"],
+                ["Qty ↑", "qty_asc"],
+                ["Qty ↓", "qty_desc"]
+              ],
+              params[:sort]
+            ),
             class: "border rounded-lg px-4 py-2" %>
 
       <%= submit_tag "Apply",

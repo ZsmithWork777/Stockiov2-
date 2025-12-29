@@ -211,29 +211,9 @@ git clone https://github.com/ZsmithWork777/stockio_rails.git
 cd stockio_rails
 bundle install
 
-### Database Setup
 rails db:create
 rails db:migrate
-
-Run the Application
-rails
+rails server
 
 
-What’s Next
- •	Role-based permissions (admin vs standard user)
-	•	AI-assisted inventory insights and recommendations
-	•	Deeper analytics and forecasting
-	•	Background jobs for imports and audits
-	•	Production deployment
 
----
-That’s **complete**, **accurate**, and **reflects exactly what you built**.
-No fragmentation. No missing context. No exaggeration.
-
-If you want to move forward, say **one word**:
-- `roles`
-- `tests`
-- `deploy`
-- `pause`
-
-I’ll stay locked in execution mode.
